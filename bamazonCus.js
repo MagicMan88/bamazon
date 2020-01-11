@@ -75,8 +75,8 @@ function purchaseOrder(ID, payAmount) {
         } else {
             console.log('Our apologies, we don not have enough ' + res[0].product_name + 'to complete your order.');
         };
-        displayProducts();
+        displayProd();
     });
 };
 
-displayProducts();
+displayProd();
