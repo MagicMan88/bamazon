@@ -12,23 +12,23 @@ var connection = mysql.createConnection({
     database: 'bamazon'
 });
 
-connection.connect(function(err) {
-    if(err) throw err;
+connection.connect(function (err) {
+    if (err) throw err;
     console.log("Connected as id " + connection.threadId);
 });
 
 // Function to display the available products
-var displayProd = function() {
+var displayProd = function () {
     var query = 'SELECT * FROM products';
-    connection.query(query, function(err, res) {
-        if(err) throw err;
+    connection.query(query, function (err, res) {
+        if (err) throw err;
         // Display the table using the cli-table package
-        var displayTable = new Table ({
+        var displayTable = new Table({
             head: ['Item ID', 'Product Name', 'Category', 'Price', 'Quantity'],
-            colWidths: [10,25,25,10,14]
+            colWidths: [10, 25, 25, 10, 14]
         });
         // Loop through the results using a for loop
-        for (var i = 0; i < res.length; i++){
+        for (var i = 0; i < res.length; i++) {
             displayTable.push(
                 [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]
             );
@@ -41,8 +41,7 @@ var displayProd = function() {
 
 // Function for purchasePrompt
 function purchasePrompt() {
-    inquirer.prompt([
-        {
+    inquirer.prompt([{
             name: 'ID',
             type: 'input',
             message: 'Enter the item ID you want to purchase.',
@@ -55,10 +54,27 @@ function purchasePrompt() {
             filter: Number
         },
 
-    ]).then(function(answer){
+    ]).then(function (answer) {
         var quantityNeeded = answer.Quantity;
         var IDrequested = answer.ID;
         purchaseOrder(IDrequested, quantityNeeded);
     });
 };
 
+// Function for purchaseOrder
+function purchaseOrder(ID, payAmount){
+	connection.query('SELECT * FROM products WHERE item_id = ' + ID, function(err,res){
+		if(err){console.log(err)};
+		if(payAmount <= res[0].stock_quantity){
+			var totalCost = res[0].price * payAmount;
+			console.log('Your item is in stock!');
+			console.log('The total cost for ' + payAmount + ' '  +res[0].product_name + ' is ' + totalCost + ' Thank you!');
+			connection.query("UPDATE products SET stock_quantity = stock_quantity - " + payAmount + "WHERE item_id = " + ID);
+		} else{
+			console.log('Our apologies, we don not have enough ' + res[0].product_name + 'to complete your order.');
+		};
+		displayProducts();
+	});
+};
+
+displayProducts(); 
