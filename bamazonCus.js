@@ -28,6 +28,14 @@ var displayProd = function() {
             colWidths: [10,25,25,10,14]
         });
         // Loop through the results using a for loop
-    })
+        for (var i = 0; i < res.length; i++){
+            displayTable.push(
+                [res[i].item_id, res[i].product_name, res[i].department_name, res[i].price, res[i].stock_quantity]
+            );
+        }
+        console.log(displayTable.toString());
+        // Call prompt to purchase function
+        purchasePrompt();
+    });
 }
 
