@@ -62,19 +62,21 @@ function purchasePrompt() {
 };
 
 // Function for purchaseOrder
-function purchaseOrder(ID, payAmount){
-	connection.query('SELECT * FROM products WHERE item_id = ' + ID, function(err,res){
-		if(err){console.log(err)};
-		if(payAmount <= res[0].stock_quantity){
-			var totalCost = res[0].price * payAmount;
-			console.log('Your item is in stock!');
-			console.log('The total cost for ' + payAmount + ' '  +res[0].product_name + ' is ' + totalCost + ' Thank you!');
-			connection.query("UPDATE products SET stock_quantity = stock_quantity - " + payAmount + "WHERE item_id = " + ID);
-		} else{
-			console.log('Our apologies, we don not have enough ' + res[0].product_name + 'to complete your order.');
-		};
-		displayProducts();
-	});
+function purchaseOrder(ID, payAmount) {
+    connection.query('SELECT * FROM products WHERE item_id = ' + ID, function (err, res) {
+        if (err) {
+            console.log(err)
+        };
+        if (payAmount <= res[0].stock_quantity) {
+            var totalCost = res[0].price * payAmount;
+            console.log('Your item is in stock!');
+            console.log('The total cost for ' + payAmount + ' ' + res[0].product_name + ' is ' + totalCost + ' Thank you!');
+            connection.query("UPDATE products SET stock_quantity = stock_quantity - " + payAmount + "WHERE item_id = " + ID);
+        } else {
+            console.log('Our apologies, we don not have enough ' + res[0].product_name + 'to complete your order.');
+        };
+        displayProducts();
+    });
 };
 
-displayProducts(); 
+displayProducts();
