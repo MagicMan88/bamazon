@@ -39,3 +39,26 @@ var displayProd = function() {
     });
 }
 
+// Function for purchasePrompt
+function purchasePrompt() {
+    inquirer.prompt([
+        {
+            name: 'ID',
+            type: 'input',
+            message: 'Enter the item ID you want to purchase.',
+            filter: Number
+        },
+        {
+            name: 'Quantity',
+            type: 'input',
+            message: 'How many items do you want to purchase?',
+            filter: Number
+        },
+
+    ]).then(function(answer){
+        var quantityNeeded = answer.Quantity;
+        var IDrequested = answer.ID;
+        purchaseOrder(IDrequested, quantityNeeded);
+    });
+};
+
