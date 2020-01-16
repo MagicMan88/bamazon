@@ -71,7 +71,7 @@ function purchaseOrder(ID, payAmount) {
             var totalCost = res[0].price * payAmount;
             console.log('Your item is in stock!');
             console.log('The total cost for ' + payAmount + ' ' + res[0].product_name + ' is ' + totalCost + ' Thank you!');
-            connection.query("UPDATE products SET stock_quantity = stock_quantity - " + payAmount + "WHERE item_id = " + ID);
+            connection.query("UPDATE products SET stock_quantity = stock_quantity - " + payAmount + " WHERE item_id = " + ID);
         } else {
             console.log('Our apologies, we do not have enough ' + res[0].product_name + 'to complete your order.');
         };
